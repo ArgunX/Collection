@@ -2,25 +2,29 @@
 import java.util.Arrays;
 import java.util.Collection;
 
-public class MyArrayList<T> {
+public class MyArrayList<T> implements MyList<T> {
     private static final int DEFAULT_SIZE = 10;
+    private static final int GROW_FACTOR = 2;
     private Object[] elements;
     private int size = 0;
 
     public MyArrayList() {
-        elements = new Object[DEFAULT_SIZE];
+        elements = ArrayInit(DEFAULT_SIZE);
     }
 
     public MyArrayList(Collection<? extends T> collection) {
-        elements = new Object[collection.size()];
+        elements = ArrayInit(collection.size());
         for (T element : collection) {
             this.add(element);
         }
     }
 
+    private Object[] ArrayInit(int size){
+        return new Object[size];
+    }
     public void add(T item) {
         if (size == elements.length) {
-            elements = Arrays.copyOf(elements, elements.length * 2);
+            elements = Arrays.copyOf(elements, elements.length * GROW_FACTOR);
         }
         elements[size++] = item;
     }
